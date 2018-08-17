@@ -3,12 +3,12 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>Corona</name>
-            <creation-uuid>203270c8-5e88-4f10-8dc4-c4cff86868ae</creation-uuid>
+            <name>XC16_Corona</name>
+            <creation-uuid>8d14b91d-ca1a-41f4-9e20-3c727e0e1060</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
-            <header-extensions>h</header-extensions>
+            <header-extensions/>
             <asminc-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>

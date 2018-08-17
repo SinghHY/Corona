@@ -8,7 +8,7 @@
 * Version:     
 ************************************************************************/
 
-#include <33FJ256GP710A.h>
+#include <33FJ256GP510.h>
 #fuses XT,NOWDT,NOPROTECT
 #device ADC = 12 
 #use delay(clock = 100MHz, crystal = 40MHz)
