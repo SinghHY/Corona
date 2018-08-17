@@ -1,0 +1,56 @@
+
+ROM used:   2886/175104 (2%)
+            2886/175104 (2%) including unused fragments
+
+            2.3 Average locations per line
+            28.6 Average locations per statement
+
+RAM used:   254/16384 (2%) at main() level
+            383/16384 (2%) worst case
+
+Stack used: 56 worst case (14 in main + 42 for interrupts)
+Stack size: 128
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  197   101 100  Main.c
+ 1056     0   0  ..\..\..\Program Files (x86)\PICC\devices\33FJ256GP510.h
+----- -----
+ 1253   101 Total
+
+Page ROM  %  RAM    Vol Diff  Functions:
+---- --- --- ---    --- ----  ----------
+0     44   1    6             @SPI_XFER_IN_1
+0    338   6    1   1109  6.8  spi2_slave_isr
+0     36   1    1     22  1.2  timer1_isr
+0    926  16    0   2757  9.6  MAIN
+0    202   3   58             @DIVFF
+0     58   1  127             @ITOF
+0    426   7   59             @ADDFF
+0     44   1   61             @SFTOI
+0    196   3   59             @MULFF
+0    104   2   58             @FLT
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               3
+    Statements              101
+    Comments                167
+    Volume (V)              4463
+    Difficulty (D)          17.9
+    Effort to implement (E) 79675
+    Time to implement (T)   1 hours, 14 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   27
+    Maintainability (MI)    32
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-001FE   508  0  
+00200-0FFFE  2374  62650  
+10000-1FFFE     0  65536  
+20000-2ABFE     0  44032  
+
+
+

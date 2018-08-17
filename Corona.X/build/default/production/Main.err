@@ -1,0 +1,15 @@
+C:\GitRepo\Corona\Corona.X\Main.c:127:1:  Warning#203  Condition always TRUE
+C:\GitRepo\Corona\Corona.X\Main.c:24:46:  Warning#202  Variable never used:   Previous_Error
+C:\GitRepo\Corona\Corona.X\Main.c:25:49:  Warning#202  Variable never used:   FPrevious_Error
+C:\GitRepo\Corona\Corona.X\Main.c:26:43:  Warning#202  Variable never used:   Kd
+C:\GitRepo\Corona\Corona.X\Main.c:26:66:  Warning#202  Variable never used:   Derivative
+C:\GitRepo\Corona\Corona.X\Main.c:27:28:  Warning#202  Variable never used:   FKd
+C:\GitRepo\Corona\Corona.X\Main.c:27:53:  Warning#202  Variable never used:   FDerivative
+C:\GitRepo\Corona\Corona.X\Main.c:30:6:  Warning#202  Variable never used:   SPI_Flag
+C:\GitRepo\Corona\Corona.X\Main.c:30:54:  Warning#202  Variable never used:   Tx
+C:\GitRepo\Corona\Corona.X\Main.c:30:77:  Warning#202  Variable never used:   count
+C:\GitRepo\Corona\Corona.X\Main.c:32:42:  Warning#202  Variable never used:   Err_cnt
+C:\GitRepo\Corona\Corona.X\Main.c:35:7:  Warning#202  Variable never used:   Flange
+      Memory usage:   ROM=2%      RAM=2% - 2%
+      0 Errors,  12 Warnings.
+Build Successful.
