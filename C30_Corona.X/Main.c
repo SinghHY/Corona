@@ -1,5 +1,5 @@
 /**********************************************************************
-* Temperature Control 
+* Corona Control 
 * © PerkinElmer Health Sciences Canada, Inc., 2017
 * This program is Corona Voltage control. 
 * FileName:        Main.c
@@ -8,7 +8,6 @@
 * Version:     
 ************************************************************************/
 #include "p33Fxxxx.h"
-
 #include <spi.h>
 #include <outcompare.h>
 #include <timer.h>
@@ -27,6 +26,21 @@ int rxdData2;
 int txdData2;
 int CommandCounter1 = 0;
 
+
+//Time to check SPI2 for any new data//
+void __attribute__((__interrupt__,no_auto_psv)) _SPI2Interrupt(void) 
+    {    
+    
+        IFS2bits.SPI2IF = 0;
+        SPI2STATbits.SPIROV = 0;  // Clear SPI1 receive overflow flag if set //
+        PORTGbits.RG15 = 1 ;
+        rxdData1 = ReadSPI2();
+
+        SPIFlag =1;
+        CommandCounter1 = CommandCounter1 +1 ;
+     if (!SPI2STATbits.SPITBF)
+                        WriteSPI2(txdData1);//if txd buffer is rdy send data//
+    }
 
 int main(void)
 {
@@ -58,9 +72,9 @@ unsigned char version = 19;   //new version for corona//
 
 // init the SPI 1 and SPI2
 
- SPI2CON1bits.SSEN = 1; // slave select pin enabled//
- SPI2CON1 = 0x8080;  // enable slave, mode8, cke=1, ckp = 0, smp = 0
- SPI2STAT = 0x8000; // enables the spi
+SPI2CON1bits.SSEN = 1; // slave select pin enabled//
+SPI2CON1 = 0x8080;  // enable slave, mode8, cke=1, ckp = 0, smp = 0
+SPI2STAT = 0x8000; // enables the spi
 
  
 TRISG = 0x00;
@@ -96,16 +110,17 @@ T3CON = 0x8010;
 
 
 //init ADC channels for AN0 and AN2 //
-   AD1CON1 = 0x00e0;
-   AD1CON2 = 0x0000;
-   AD1CON3 = 0x1f02;
-   AD1PCFGL = 0xfffa; //AN0 and AN2 ADC enabled 
-   AD1PCFGH = 0xffff; //needed for probe ID reading //
-   AD1CSSH = 0x0000;     
-   AD1CSSL = 0x0000;  //ano and an2 scan          
-   AD1CON1bits.ADON =1; // ADC1 on
-/* Configure SPI2 interrupt */
+AD1CON1 = 0x00e0;
+AD1CON2 = 0x0000;
+AD1CON3 = 0x1f02;
+AD1PCFGL = 0xfffa; //AN0 and AN2 ADC enabled 
+AD1PCFGH = 0xffff; //needed for probe ID reading //
+AD1CSSH = 0x0000;     
+AD1CSSL = 0x0000;  //ano and an2 scan          
+AD1CON1bits.ADON =1; // ADC1 on
 
+
+/* Configure SPI2 interrupt */
  ConfigIntSPI2(SPI_INT_EN &  SPI_INT_PRI_6);
 
 
@@ -276,23 +291,3 @@ else if ( PORTEbits.RE1 == 1   )  // if its normal position for crona probe and 
 
 
 
-//Time to check SPI2 for any new data//
-void __attribute__((__interrupt__,no_auto_psv)) _SPI2Interrupt(void) 
-
-{    
-    
-    IFS2bits.SPI2IF = 0;
-    SPI2STATbits.SPIROV = 0;  // Clear SPI1 receive overflow flag if set //
-
-PORTGbits.RG15 = 1 ;
-rxdData1 = ReadSPI2();
-
-
- SPIFlag =1;
-CommandCounter1 = CommandCounter1 +1 ;
-if (!SPI2STATbits.SPITBF)
-                        {
-                        WriteSPI2(txdData1);//if txd buffer is rdy send data//
-                         }
-
-}
