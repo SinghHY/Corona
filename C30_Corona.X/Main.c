@@ -122,10 +122,10 @@ OpenOC3(OC_IDLE_CON & OC_TIMER3_SRC & OC_CONTINUE_PULSE, 0xffff, 0xfffd);
 SetPulseOC3(0x0, 0xfffd);
 
 //init timer3, 0xffff for 60Hz//
-    ConfigIntTimer3(T3_INT_OFF);
-    WriteTimer3(0);
-    OpenTimer3(T3_ON & T3_GATE_OFF & T3_PS_1_1 ,  0xffff);
-    T3CON = 0x8010;
+ConfigIntTimer3(T3_INT_OFF);
+WriteTimer3(0);
+OpenTimer3(T3_ON & T3_GATE_OFF & T3_PS_1_1 ,  0xffff);
+T3CON = 0x8010;
 
 
 //init ADC channels for AN0 and AN2 //
@@ -139,7 +139,7 @@ SetPulseOC3(0x0, 0xfffd);
    AD1CON1bits.ADON =1; // ADC1 on
 /* Configure SPI2 interrupt */
 
-    ConfigIntSPI2(SPI_INT_EN &  SPI_INT_PRI_6);
+ ConfigIntSPI2(SPI_INT_EN &  SPI_INT_PRI_6);
 
 
     
@@ -163,78 +163,48 @@ while(1)
          //Time to check SPI2 for any new data//
          //time to check spi flag//
 
-    
- if ( SPIFlag == 1  )
-  {              
-             SPIFlag =0;
-              PORTGbits.RG15 = 0 ;
-               //What to do wirh the first byte ?//
-
-            if (CommandCounter1==4)//is it first byte?//
-               {
-                CommandCounter1 = 0;
-                     txdData1 = version;//Instruction1 + 0x80 ;
-                   if (Instruction1 == 1)
-                              {
-                        TempSetpointLow = rxdData1;
-                              }
-                           
-                if  ((Instruction1 == 2) ^ (Instruction1 == 12))
-                             {
-                             HVSetpointLow1 = rxdData1;
-                             }
-                } 
-              
-            else if  (CommandCounter1==1)//is it second byte?//
-               {
-                       Instruction1 = rxdData1;
-                    if ((Instruction1 == 1) ^ (Instruction1 == 11))
-                            {
-                             txdData1=0;
-                             }
-                     if  ((Instruction1 == 2) ^ (Instruction1 == 12))
-                            {
-                          txdData1=VoltageMonitorLow1;
-                            }
-                      if  (Instruction1 == 3)
-                             {                             
-                             txdData1=ProbeId;
-                             }         
-                     }
-                else if   (CommandCounter1==2)//is it third byte?//
-                     {
-                  
-                           if ((Instruction1 == 1)^(Instruction1 == 11))
-                              {     
-                              txdData1=0;
-                              
-                       }   
-                      
-                           if ((Instruction1 == 2)^(Instruction1 == 12))
-                             {
-                            
-                             txdData1=0 ;//VoltageMonitorHi1; 
-                           
-                             }   
-                     if  (Instruction1 == 3)
-                             {                   
-                             txdData1=0;                            
-                             }   
-                         }
-                else if   (CommandCounter1==3)//is it fourth byte?//
-                     {  
-                             txdData1=0;//0x55;                          
-                          
-                          if (Instruction1 == 1)
-                              { 
-                        TempSetpointHi = rxdData1;
-                              }
-                      if  (Instruction1 == 2)
-                             {
-                             HVSetpointHi1 = rxdData1;
-                             }
-                            }
-     }
+    if(SPIFlag == 1)
+    {   SPIFlag = 0;
+        
+    switch(CommandCounter1) 
+        {
+          case 4: 
+                   CommandCounter1 = 0;
+                   txdData1 = version;
+                   if(Instruction1 == 1)
+                       TempSetpointLow = rxdData1;
+                   else if((Instruction1 == 2) ^ (Instruction1 == 12))
+                            HVSetpointLow1 = rxdData1;
+                   break;
+          case 1:      
+                   Instruction1 = rxdData1;
+                   if ((Instruction1 == 1) ^ (Instruction1 == 11))
+                        txdData1=0;
+                   else if ((Instruction1 == 2) ^ (Instruction1 == 12))
+                            txdData1=VoltageMonitorLow1;
+                   else if (Instruction1 == 3)
+                            txdData1=ProbeId;
+                   break;
+          case 2:   
+                   if ((Instruction1 == 1)^(Instruction1 == 11))	
+                        txdData1=0;
+                   else if ((Instruction1 == 2)^(Instruction1 == 12))
+                         txdData1=0;     
+                   else if (Instruction1 == 3)
+                         txdData1=0;
+                   break;
+          case 3:
+                   txdData1=0;
+                    if (Instruction1 == 1)
+						  TempSetpointHi = rxdData1;
+                    else if  (Instruction1 == 2)
+                              HVSetpointHi1 = rxdData1;
+                    break;
+          default:
+                    CommandCounter1 = 0;
+                    break;
+        }  
+    }
 
        
   //Check the APCI and ESI logic for protection //
