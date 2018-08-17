@@ -1,24 +1,12 @@
-//---------------------------------------------------------------------------------------------------------------//
-//                                                                                                               //
-//              This program written for SOURCE and HSID board of IONICAXX to                                    //
-//              control the HV and Temperature of HSID and Source                                                //
-//              MehrdadT@ionics.ca         Date : Aug 12th, 2008                                          //   
-//              Version : 2.0 based on dsPIC33                                                    //   
-//              comment: this version has a PID control parameter to control temperature with seperate           //
-//                       thermocouple                                                                            //
-//              latest update for Source May12 was regarding immidiate heater shut down after zero set point     // 
-//              in this version I added an option to current control of Crona HV                                 //
-//              latest update for HV+ and HV- seperate setting                                                   // 
-//              last  update for crona current control july 9th                                                  // 
-//              last update for corona control hv+ and hv- july 15th                                             //
-//              last updat for corona control hangout problem Nov11th                                            // 
-//              Modified probeID logic for HV reset April 6th,2010                                               //                  
-//              Modified SPI the same as rest Sep23,2010 also vesrion readable from ionsniffer                   // 
-//              Modified for achieve fast switching @ April 28th 2011                                            //                   
-//              Modified for acheive 2 APCI probe at the same time @ Oct 2012                                    //  
-//              Modified to work with new hardware (current control) @June 2013                                  //
-//---------------------------------------------------------------------------------------------------------------//
-
+/**********************************************************************
+* Temperature Control 
+* © PerkinElmer Health Sciences Canada, Inc., 2017
+* This program is Corona Voltage control. 
+* FileName:        Main.c
+* Processor:       dsPIC33FJ256GP510
+* Compiler:        C30 3_31 or Higher
+* Version:     
+************************************************************************/
 #include "p33Fxxxx.h"
 
 #include <spi.h>
@@ -104,26 +92,26 @@ unsigned char version = 19;   //new version for corona//
 // init the SPI 1 and SPI2
 
  SPI2CON1bits.SSEN = 1; // slave select pin enabled//
+ SPI2CON1 = 0x8080;  // enable slave, mode8, cke=1, ckp = 0, smp = 0
+ SPI2STAT = 0x8000; // enables the spi
 
-                       // enable slave, mode8, cke=1, ckp = 0, smp = 0
-    SPI2CON1 = 0x8080;   // enables the spi
-    SPI2STAT = 0x8000;
  
 TRISG = 0x00;
 //init PWM for HV1 and HV2 , fc 90KHZ //
 CloseOC1();
 ConfigIntOC1(OC_INT_OFF );
 OpenOC1(OC_IDLE_CON & OC_TIMER2_SRC & OC_CONTINUE_PULSE, 298, 300);
+
 CloseOC2();
 ConfigIntOC2(OC_INT_OFF );
 OpenOC2(OC_IDLE_CON & OC_TIMER2_SRC & OC_CONTINUE_PULSE, 298, 300);
 
 
 //init timer2, 0x175 for 90khz//
-    ConfigIntTimer2(T2_INT_OFF);
-    WriteTimer2(0);
-    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_1 ,  300);
-    T2CON = 0x8000;
+ConfigIntTimer2(T2_INT_OFF);
+WriteTimer2(0);
+OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_1 ,  300);
+T2CON = 0x8000;
 SetPulseOC1(0x0 , 2 );//2
 SetPulseOC2(0x0 , 2 );//2
 
@@ -143,39 +131,33 @@ SetPulseOC3(0x0, 0xfffd);
 //init ADC channels for AN0 and AN2 //
    AD1CON1 = 0x00e0;
    AD1CON2 = 0x0000;
-    AD1CON3 = 0x1f02;
-    AD1PCFGL = 0xfffa; //AN0 and AN2 ADC enabled 
-    AD1PCFGH = 0xffff; //needed for probe ID reading //
-    AD1CSSH = 0x0000;     
+   AD1CON3 = 0x1f02;
+   AD1PCFGL = 0xfffa; //AN0 and AN2 ADC enabled 
+   AD1PCFGH = 0xffff; //needed for probe ID reading //
+   AD1CSSH = 0x0000;     
    AD1CSSL = 0x0000;  //ano and an2 scan          
    AD1CON1bits.ADON =1; // ADC1 on
 /* Configure SPI2 interrupt */
 
     ConfigIntSPI2(SPI_INT_EN &  SPI_INT_PRI_6);
-// start of main loop !!!! //
 
+
+    
 while(1)
   {
 
-if ( PORTEbits.RE1 == 0 )   //reading POL2 corona HV//
-  {
-   PORTGbits.RG15 = 0;
-  }
-else
- {
-   PORTGbits.RG15 = 1;
- }
+    if ( PORTEbits.RE1 == 0 )   //reading POL2 corona HV//
+            PORTGbits.RG15 = 0;
+     else
+            PORTGbits.RG15 = 1;
 
-//Now its the time to read APCI and ESI inputs//
+ //Now its the time to read APCI and ESI inputs//
  
- if (( PORTEbits.RE6 == 1 ) || ( PORTEbits.RE7 == 1 ))   //reading APCI-1 and APCI-2//
-  {
-   APCIRealTime = 1 ;
-  }   
-  else
-  {
-  APCIRealTime = 0 ;
-  }
+    if (( PORTEbits.RE6 == 1 ) || ( PORTEbits.RE7 == 1 ))   //reading APCI-1 and APCI-2//
+            APCIRealTime = 1 ; 
+  
+     else
+            APCIRealTime = 0 ;
 
   
          //Time to check SPI2 for any new data//
@@ -258,11 +240,10 @@ else
   //Check the APCI and ESI logic for protection //
 
 if (  APCIRealTime  == 0 ) 
-{
-HVSetpointHi1 = 0;    // reset HV //
-HVSetpointLow1 = 0;   // reset HV // 
-}      
-else {}
+    {
+        HVSetpointHi1 = 0;    // reset HV //
+        HVSetpointLow1 = 0;   // reset HV // 
+    }      
 
 //Now it's the time to control the Crona HV current based on the setting //   
 
@@ -287,7 +268,7 @@ while (!AD1CON1bits.DONE);
 AD1CON1bits.DONE = 0;
 CronaCurrent = ADC1BUF0;
 ResultCurrent = ADC1BUF0;
-   ResultCurrent >>= 2;
+ResultCurrent >>= 2;
 VoltageMonitorLow1 = ResultCurrent ;
 
      //Now its time to calculate average of CronaCurrent //
@@ -354,6 +335,10 @@ else if ( PORTEbits.RE1 == 1   )  // if its normal position for crona probe and 
 //for main
 
 //*************************************************************************************//
+
+
+
+
 //Time to check SPI2 for any new data//
 void __attribute__((__interrupt__,no_auto_psv)) _SPI2Interrupt(void) 
 
