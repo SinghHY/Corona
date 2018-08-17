@@ -10,9 +10,9 @@ CND_CONF=default
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/Corona-V19.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=Corona-V19.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=corona-v19.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/C30_Corona.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=C30_Corona.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=c30corona.x/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/corona-v19.x/bin
+makeDirectory ${TMPDIR}/c30corona.x/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/corona-v19.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/c30corona.x.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/corona-v19.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/c30corona.x.tar *
 checkReturnCode
 
 # Cleanup
