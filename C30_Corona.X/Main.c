@@ -30,51 +30,21 @@ int CommandCounter1 = 0;
 
 int main(void)
 {
-unsigned int channel2;   // conversion result as read from result buffer
-unsigned int channel3;   // conversion result as read from result buffer
-unsigned int offset;   // buffer offset to point to the base of the idle buffer
 
-
-const char*pSrc;
-char*pDst;
-int txferSize;
-int fail=0; // success flag
-int i;
-int kPos=0;
-int kNeg=0;
 long int sum =0;
 
-int CommandCounter2 = 0;
 int Instruction1; // 1,2,3
-int Instruction2; // 1,2,3
-int isDataAvlbl1;
-int isDataAvlbl2;
 int CurrentAverage = 0;
 int CurrentAverageOld = 0;
-int AverageCounter = 0;
-int TimeConstantCounter = 0;
-int TempDifference=0; 
-int ErrorFactor=0; 
-int ErrorCurrentPos =0;
-int ErrorCurrentNeg =0 ;
 int MyCounter = 0;
 int MyDelay =0;
 
-unsigned char PortValue=0x0;
-unsigned short Result;
 unsigned short ResultHV;
 unsigned short ResultCurrent;
-unsigned short Temperature;
-unsigned short TempSetpoint=0;
-unsigned short HVSetpoint1=0;
-unsigned short HVSetpoint2=0;
-unsigned short TimeConstant = 21;
 unsigned short CronaCurrent = 0;
 unsigned short CronaSettingPos = 0;
 unsigned short CronaSettingNeg = 0;
 
-unsigned char TemperatureLow=0;
-unsigned char TemperatureHi=0;
 unsigned char TempSetpointLow=0;
 unsigned char TempSetpointHi=0;
 unsigned char VoltageMonitorLow1=0;
@@ -82,10 +52,7 @@ unsigned char VoltageMonitorHi1=0;
 unsigned char HVSetpointLow1=0;
 unsigned char HVSetpointHi1=0;
 unsigned char APCIRealTime =0;
-unsigned char APCIRealTime2 =0;
-
 unsigned char ProbeId=0x0;
-
 unsigned char version = 19;   //new version for corona//
 
 
