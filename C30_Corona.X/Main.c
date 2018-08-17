@@ -221,7 +221,7 @@ CronaSettingNeg = HVSetpointLow1;   //HV - setting
  ResultHV = ADC_Read(0);
  VoltageMonitorHi1 = ResultHV ;
    
- ResultCurrent = ADC_Read(0);
+ ResultCurrent = ADC_Read(2);
  VoltageMonitorLow1 = ResultCurrent ;
 
      //Now its time to calculate average of CronaCurrent //
