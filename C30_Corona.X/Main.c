@@ -27,6 +27,7 @@ int txdData2;
 int CommandCounter1 = 0;
 
 
+
 //Time to check SPI2 for any new data//
 void __attribute__((__interrupt__,no_auto_psv)) _SPI2Interrupt(void) 
     {    
@@ -41,6 +42,19 @@ void __attribute__((__interrupt__,no_auto_psv)) _SPI2Interrupt(void)
      if (!SPI2STATbits.SPITBF)
                         WriteSPI2(txdData1);//if txd buffer is rdy send data//
     }
+
+unsigned short ADC_Read(unsigned short ch)
+  {
+    unsigned short ADC_out;
+    AD1CHS0 = ch;//select AN0 //
+    AD1CON1bits.SAMP = 1; // start sampling  ADC1
+    while (!AD1CON1bits.DONE);
+    AD1CON1bits.DONE = 0;
+    ADC_out = ADC1BUF0;
+    ADC_out >>= 2; //adjust adc from 10 bit to 8 bit value//
+    return ADC_out;
+  }
+
 
 int main(void)
 {
@@ -204,24 +218,11 @@ CronaSettingNeg = HVSetpointLow1;   //HV - setting
 
 
       //Now its time to read ADCs //
-
-AD1CHS0 = 0x0000;//select AN0 //
-AD1CON1bits.SAMP = 1; // start sampling  ADC1
-while (!AD1CON1bits.DONE);
-AD1CON1bits.DONE = 0;
-ResultHV = ADC1BUF0;
-ResultHV >>= 2; //adjust adc from 10 bit to 8 bit value//
-VoltageMonitorHi1 = ResultHV ;
+ ResultHV = ADC_Read(0);
+ VoltageMonitorHi1 = ResultHV ;
    
-
-AD1CHS0 = 0x0002;  //select AN2 //
-AD1CON1bits.SAMP = 1; // start sampling  ADC1
-while (!AD1CON1bits.DONE);
-AD1CON1bits.DONE = 0;
-CronaCurrent = ADC1BUF0;
-ResultCurrent = ADC1BUF0;
-ResultCurrent >>= 2;
-VoltageMonitorLow1 = ResultCurrent ;
+ ResultCurrent = ADC_Read(0);
+ VoltageMonitorLow1 = ResultCurrent ;
 
      //Now its time to calculate average of CronaCurrent //
 
