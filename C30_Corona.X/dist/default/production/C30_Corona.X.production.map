@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_31 (A) 8
+Microchip Technology Inc, vv3_31 (A) ‹
 
 Tool Name:
   c:\program files (x86)\microchip\mplab c30\bin\bin\..\bin/pic30-elf-ld.exe
@@ -105,10 +105,10 @@ Program Memory  [Origin = 0x200, Length = 0x2a9fe]
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x2a6           0x3f9  (1017)
-.text                        0x4a6               0x3ca           0x5af  (1455)
-.dinit                       0x870                0x12            0x1b  (27)
+.text                        0x4a6               0x37a           0x537  (1335)
+.dinit                       0x820                0x12            0x1b  (27)
 
-                     Total program memory used (bytes):          0x9c3  (2499) <1%
+                     Total program memory used (bytes):          0x94b  (2379) <1%
 
 
 Data Memory  [Origin = 0x800, Length = 0x4000]
@@ -181,12 +181,14 @@ External Symbols in Program Memory (by address):
                   0x000464                  _WriteTimer3
                   0x000468                  ___divsi3
                   0x000486                  ___udivsi3
-                  0x0004a6                  _main
-                  0x000836                  __SPI2Interrupt
+                  0x0004a6                  __SPI2Interrupt
+                  0x0004e0                  _ADC_Read
+                  0x000504                  _main
                   0xf80004                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
+                  0x0004e0                  _ADC_Read
                   0x000294                  _CloseOC1
                   0x0002a2                  _CloseOC2
                   0x0002b0                  _CloseOC3
@@ -210,14 +212,14 @@ External Symbols in Program Memory (by name):
                   0x000464                  _WriteTimer3
                   0x000290                  __DefaultInterrupt
                   0xf80004                  __FGS.sec
-                  0x000836                  __SPI2Interrupt
+                  0x0004a6                  __SPI2Interrupt
                   0x000468                  ___divsi3
                   0x000486                  ___udivsi3
                   0x000232                  __data_init
                   0x000232                  __data_init_standard
                   0x000222                  __psv_init
                   0x000200                  __resetPRI
-                  0x0004a6                  _main
+                  0x000504                  _main
 
 Memory Configuration
 
@@ -387,22 +389,22 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000        0xebe
+.debug_info       0x000000        0xc5f
  *(.debug_info)
- .debug_info      0x000000        0xebe build/default/production/Main.o
+ .debug_info      0x000000        0xc5f build/default/production/Main.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000         0xf0
+.debug_abbrev     0x000000         0xef
  *(.debug_abbrev)
- .debug_abbrev    0x000000         0xf0 build/default/production/Main.o
+ .debug_abbrev    0x000000         0xef build/default/production/Main.o
 
-.debug_line       0x000000        0x57f
+.debug_line       0x000000        0x4df
  *(.debug_line)
- .debug_line      0x000000        0x57f build/default/production/Main.o
+ .debug_line      0x000000        0x4df build/default/production/Main.o
 
-.debug_frame      0x000000         0x37
+.debug_frame      0x000000         0x47
  *(.debug_frame)
- .debug_frame     0x000000         0x37 build/default/production/Main.o
+ .debug_frame     0x000000         0x47 build/default/production/Main.o
 
 .debug_str
  *(.debug_str)
@@ -414,10 +416,10 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0xb3
+                  0x000000         0xc0
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xb3 build/default/production/Main.o
+                  0x000000         0xc0 build/default/production/Main.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -469,7 +471,7 @@ __FUID3
                   0x000050          0x4 LONG 0x290 DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000052          0x4 LONG 0x290 DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000054          0x4 LONG 0x290 DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000056          0x4 LONG 0x836 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000056          0x4 LONG 0x4a6 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x290 DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005a          0x4 LONG 0x290 DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005c          0x4 LONG 0x290 DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -597,7 +599,7 @@ __FUID3
                   0x000150          0x4 LONG 0x290 DEFINED (__AltU2RXInterrupt)?ABSOLUTE (__AltU2RXInterrupt):DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000152          0x4 LONG 0x290 DEFINED (__AltU2TXInterrupt)?ABSOLUTE (__AltU2TXInterrupt):DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000154          0x4 LONG 0x290 DEFINED (__AltSPI2ErrInterrupt)?ABSOLUTE (__AltSPI2ErrInterrupt):DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000156          0x4 LONG 0x836 DEFINED (__AltSPI2Interrupt)?ABSOLUTE (__AltSPI2Interrupt):DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000156          0x4 LONG 0x4a6 DEFINED (__AltSPI2Interrupt)?ABSOLUTE (__AltSPI2Interrupt):DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000158          0x4 LONG 0x290 DEFINED (__AltC1RxRdyInterrupt)?ABSOLUTE (__AltC1RxRdyInterrupt):DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00015a          0x4 LONG 0x290 DEFINED (__AltC1Interrupt)?ABSOLUTE (__AltC1Interrupt):DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00015c          0x4 LONG 0x290 DEFINED (__AltDMA3Interrupt)?ABSOLUTE (__AltDMA3Interrupt):DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1762,10 +1764,11 @@ __c30_signature
                     0x080a                  _SPIFlag
                     0x080c                  _CommandCounter1
 
-.text             0x0004a6        0x3ca
- .text            0x0004a6        0x3ca build/default/production/Main.o
-                  0x0004a6                  _main
-                  0x000836                  __SPI2Interrupt
+.text             0x0004a6        0x37a
+ .text            0x0004a6        0x37a build/default/production/Main.o
+                  0x0004a6                  __SPI2Interrupt
+                  0x0004e0                  _ADC_Read
+                  0x000504                  _main
 
-.dinit            0x000870         0x12
- .dinit           0x000870         0x12 data_init
+.dinit            0x000820         0x12
+ .dinit           0x000820         0x12 data_init

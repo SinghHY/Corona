@@ -230,60 +230,45 @@ sum =  sum + CronaCurrent;
 MyCounter = MyCounter + 1;   
 
 
-     if (MyCounter == 500)                      
-         { 
+if (MyCounter == 500)                      
+    { 
          //clear all the buffers//   
+        MyCounter = 0; 
+        CurrentAverage = (sum / 500) ;    // this is real average of Crona//   
+        CurrentAverageOld = CurrentAverage;
+        sum =0;
+        CurrentAverage=0; 
 
-         MyCounter = 0; 
-         CurrentAverage = (sum / 500) ;    // this is real average of Crona//   
-       CurrentAverageOld = CurrentAverage;
-         sum =0;
-         CurrentAverage=0; 
-
-        // Time to control the current //  
-          MyDelay++;
+                // Time to control the current //  
+        MyDelay++;
      if (MyDelay == 1)    //20
-       {
-  
-         MyDelay=0; //reset for next loop// 
-        // first, positive voltage : CronaSettingPos //
+        {
+            MyDelay=0; //reset for next loop// 
+            // first, positive voltage : CronaSettingPos //
 
-if  (CronaSettingPos == 0) 
-  {
-    SetPulseOC2(0x0 , 2 );                       //power shut down to protection // 
-  } 
-else if ( PORTEbits.RE1 == 0 )   // if its normal position for crona probe and a valid setting for current 0.1ua to 4.0ua equal to (0-200)setting equql to (0 - 570)ADC reading //
-       { 
-        SetPulseOC2(0x0 , 2 + CronaSettingPos ); 
-       }   
+        if  (CronaSettingPos == 0) 
+            SetPulseOC2(0x0 , 2 );                       //power shut down to protection // 
+ 
+        else if ( PORTEbits.RE1 == 0 )   // if its normal position for crona probe and a valid setting for current 0.1ua to 4.0ua equal to (0-200)setting equql to (0 - 570)ADC reading //
+                SetPulseOC2(0x0 , 2 + CronaSettingPos ); 
+   
               
        
 
-        // second, negative voltage : CronaSettingNeg //
+                            // second, negative voltage : CronaSettingNeg //
 
-if  (CronaSettingNeg == 0) 
-  {
-    SetPulseOC1(0x0 , 2 );                       //power shut down to protection // 
-  } 
-else if ( PORTEbits.RE1 == 1   )  // if its normal position for crona probe and a valid setting for current 0.1ua to 4.0ua equal to (0-200)setting equql to (0 - 570)ADC reading //
-       
-        {
-         SetPulseOC1(0x0 , 2 +CronaSettingNeg );
-        }   
-       
-       
-       }
+        if  (CronaSettingNeg == 0) 
+                SetPulseOC1(0x0 , 2 );                       //power shut down to protection // 
 
-        
-            
-           
-       
-     
-     } //delay loop//
+        else if ( PORTEbits.RE1 == 1   )  // if its normal position for crona probe and a valid setting for current 0.1ua to 4.0ua equal to (0-200)setting equql to (0 - 570)ADC reading //
+                SetPulseOC1(0x0 , 2 +CronaSettingNeg );
+
+        }
+
+    } //delay loop//
                     
-    }//for while
+  }//for while
    return 0;
-
 }
 //for main
 
