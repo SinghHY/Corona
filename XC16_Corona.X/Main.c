@@ -4,7 +4,7 @@
 * This program is Corona Voltage control. 
 * FileName:        Main.c
 * Processor:       dsPIC33FJ256GP510
-* Compiler:        XC16 v1.32 or Higher
+* Compiler:        XC16 v1.35 or Higher
 * Version:     
 ************************************************************************/
 #include "p33Fxxxx.h"
@@ -70,7 +70,7 @@ void main(void)
     unsigned char HVSetpointHi1=0;
     unsigned char APCIRealTime =0;
     unsigned char ProbeId=0x0;
-    unsigned char version = 19;   //new version for corona//
+    unsigned char version = 0x20;   //new version for corona//
 
     SPI2CON1bits.SSEN = 1; // slave select pin enabled//
     SPI2CON1 = 0x8080;  // enable slave, mode8, cke=1, ckp = 0, smp = 0
