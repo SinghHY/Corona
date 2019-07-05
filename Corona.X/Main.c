@@ -1,7 +1,6 @@
 /**********************************************************************
-* Temperature Control 
-* � PerkinElmer Health Sciences Canada, Inc., 2017
-* This program is for Heater control U26 on old Board. 
+* Corona Firmware
+* PerkinElmer Health Sciences Canada, Inc., 2017 
 * FileName:        Main.c
 * Processor:       dsPIC33FJ256GP510A
 * Compiler:        CCS v5.074 or Higher
