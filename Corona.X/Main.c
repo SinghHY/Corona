@@ -24,8 +24,16 @@
  
 void main()
 {  
-   setup_adc_ports(sAN0|sAN1|sAN2|sAN3, VSS_VDD);
-   setup_adc(ADC_CLOCK_INTERNAL);  
+    float Voltage;
+    
+   TxBuffer[0] = 6;
+   TxBuffer[1] = 5;
+   TxBuffer[2] = 0;
+   TxBuffer[3] = 0;
+    
+   setup_adc_ports(sAN0|sAN1|sAN2|sAN3|sAN30, VSS_VDD);
+   setup_adc(ADC_CLOCK_INTERNAL); 
+   set_adc_channel(0);
    
    setup_dma(2, DMA_OUT_SPI2, DMA_BYTE);  
    setup_dma(0, DMA_IN_SPI2, DMA_BYTE);
@@ -40,8 +48,13 @@ void main()
    set_pwm_duty(1,0);
    setup_compare(2, COMPARE_PWM | COMPARE_TIMER2);
    set_pwm_duty(2,0);
+   
    while(1)
    {
-       
+    //Voltage = read_adc();
+       if(RxBuffer[0] == 2)
+           TxBuffer[1] = 50;
+       else
+           TxBuffer[1] = 0;
    }
 }   
